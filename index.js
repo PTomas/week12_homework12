@@ -28,10 +28,15 @@ connection.connect(function(err) {
   generateQuestions();
 });
 
+var employees
+var namesArray
+
 function generateQuestions() {
   connection.query("SELECT * FROM employees", function(err, res) {
     if (err) throw err;
     console.table(res);
+    employees = res;
+    
     promptUser();
     
   });
@@ -41,14 +46,10 @@ var queries = {
   users: "SELECT firstName FROM employees"
 };
 
-const getList = (firstName) => {
-  return new Promise(function(resolve, reject){
-    connection.query(queries[firstName], function(err, result, fields){
-      if (!err) resolve(result); // Here it is the array of RowDataPackets
-      else reject(err);
-    });
-  });
-};
+// const getList = (employees) => {
+
+//   namesArray.push(employees[].firstName)
+// };
 
 function promptUser() {
   return inquirer.prompt([
@@ -140,24 +141,43 @@ function deleteEmployee(){
 
   // })
 
-  
-  getList();
+  console.log(employees[0].firstName)
+
+  //getList();
   return inquirer.prompt([
     {
-      type: "list",
+      type: "input",
       name: "First",
-      message: "What employee would you like to delete?",
-      choices:[
-        {employeeNames},
-      ],
-    }
+      message: "What is the first name of the employee?",
+
+    },
+    {
+      type: "input",
+      name: "Last",
+      message: "What is the last name of the employee?",
+
+    },
+    {
+      type: "input",
+      name: "Title",
+      message: "What is the employees title?",
+
+    },
+    {
+      type: "input",
+      name: "Department",
+      message: "What department is the employee in?",
+
+    },
   ])
   .then(answers =>{
     connection.query(
-      'DELETE FROM employees WHERE',
+      'DELETE FROM employees WHERE ?',
       {
         firstName: answers.First,
-        
+         LastName: answers.Last,
+        Title: answers.Title,
+        Department: answers.Department
       },
       function(err, res) {
         if (err) throw err;
