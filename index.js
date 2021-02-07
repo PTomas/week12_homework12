@@ -147,6 +147,12 @@ function deleteEmployee(){
   return inquirer.prompt([
     {
       type: "input",
+      name: "id",
+      message: "What is the employees index?",
+
+    },
+    {
+      type: "input",
       name: "First",
       message: "What is the first name of the employee?",
 
@@ -174,10 +180,7 @@ function deleteEmployee(){
     connection.query(
       'DELETE FROM employees WHERE ?',
       {
-        firstName: answers.First,
-         LastName: answers.Last,
-        Title: answers.Title,
-        Department: answers.Department
+        id: answers.id
       },
       function(err, res) {
         if (err) throw err;
