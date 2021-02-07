@@ -22,7 +22,7 @@ connection.connect(function(err) {
 });
 
 function generateQuestions() {
-  connection.query("SELECT name FROM colleges", function(err, res) {
+  connection.query("CONSOLE TABLE FROM employees", function(err, res) {
     if (err) throw err;
 
     // Log all results of the SELECT statement
